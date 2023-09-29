@@ -39,6 +39,10 @@ export default defineConfig({
       ignored: ["**/node_modules/**", "**/dist/**", "**/.git/**", "**/api/**"],
     },
   },
+  build: {
+    outDir: "../static",
+    emptyOutDir: true,
+  },
 
   plugins: [
     VueMacros({
