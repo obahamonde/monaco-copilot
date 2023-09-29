@@ -1,55 +1,53 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import { useStorage } from '@vueuse/core'
-import Split from 'split.js'
-import * as monaco from 'monaco-editor'
-import { generateHTML } from '~/composables/helpers'
-import { StorageName } from '~/types'
-import MonacoEditor from './MonacoEditor.vue'
-import Tabs from './Tabs.vue'
+import { onMounted, ref, watch } from "vue";
+import { useStorage } from "@vueuse/core";
+import Split from "split.js";
+import * as monaco from "monaco-editor";
+import { generateHTML } from "~/composables/helpers";
+import { StorageName } from "~/types";
+import MonacoEditor from "./MonacoEditor.vue";
+import Tabs from "./Tabs.vue";
 
-
-
-const iframe = ref<HTMLIFrameElement>()
+const iframe = ref<HTMLIFrameElement>();
 
 const items = ref([
-  { text: 'HTML', value: 'html' },
-  { text: 'CSS', value: 'css' },
-  { text: 'JS', value: 'javascript' },
-])
+  { text: "HTML", value: "html" },
+  { text: "CSS", value: "css" },
+  { text: "JS", value: "javascript" },
+  { text: "Python", value: "python" },
+]);
 
-const currentTab = useStorage(StorageName.ACTIVE_TAB, items.value[0].value)
+const currentTab = useStorage(StorageName.ACTIVE_TAB, items.value[0].value);
 
 watch(isDark, (value) => {
   iframe.value?.contentWindow?.postMessage(
-    `theme-${value ? 'dark' : 'light'}`,
-    '*',
-  )
-})
+    `theme-${value ? "dark" : "light"}`,
+    "*",
+  );
+});
 
 const onChange = (payload: Record<string, any>) => {
-  iframe.value!.srcdoc = generateHTML(payload, isDark.value)
-}
+  iframe.value!.srcdoc = generateHTML(payload, isDark.value);
+};
 
 const onComplete = async (editor: monaco.editor.IStandaloneCodeEditor) => {
-const payload = editor.getValue()
-	const response = await fetch("/api/copilot", {
-method: "POST",
-body: JSON.stringify({code: payload}),
-headers: {
-"Content-Type": "application/json"
-}
-})
+  const payload = editor.getValue();
+  const response = await fetch("/api/copilot", {
+    method: "POST",
+    body: JSON.stringify({ code: payload }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-const data = await response.text()
+  const data = await response.text();
 
-editor.setValue(payload + "\n" + data)
-}
-
+  editor.setValue(payload + "\n" + data);
+};
 
 onMounted(() => {
-  Split(['#split-0', 'iframe'])
-})
+  Split(["#split-0", "iframe"]);
+});
 </script>
 
 <template>
@@ -57,9 +55,11 @@ onMounted(() => {
     <div class="flex flex-row h-full">
       <div id="split-0" class="w-full">
         <Tabs v-model="currentTab" :items="items" />
-        <MonacoEditor :active-tab="currentTab" @change="onChange" 
-					@call="onComplete"
-				/>
+        <MonacoEditor
+          :active-tab="currentTab"
+          @change="onChange"
+          @call="onComplete"
+        />
       </div>
       <iframe
         ref="iframe"
@@ -74,7 +74,7 @@ onMounted(() => {
 <style>
 main {
   height: calc(100vh - var(--nav-height));
-	width: 100%;
+  width: 100%;
 }
 
 .gutter {
@@ -83,7 +83,7 @@ main {
 }
 
 .gutter.gutter-horizontal {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
   cursor: col-resize;
 }
 

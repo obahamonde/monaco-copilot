@@ -36,17 +36,16 @@ export default defineConfig({
     },
     watch: {
       usePolling: true,
-      ignored: ["**/node_modules/**", "**/dist/**", "**/.git/**", "**/api/**"]
+      ignored: ["**/node_modules/**", "**/dist/**", "**/.git/**", "**/api/**"],
     },
   },
   build: {
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "src/main.ts"),
-
       },
       external: (id) => id.includes("api"),
-    }
+    },
   },
 
   plugins: [

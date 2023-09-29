@@ -3,7 +3,7 @@ const { modelValue } = defineModels<{
   modelValue: string;
 }>();
 const props = defineProps<{
-  callback: (text:string) => Promise<T>;
+  callback: (text: string) => Promise<T>;
 }>();
 </script>
 

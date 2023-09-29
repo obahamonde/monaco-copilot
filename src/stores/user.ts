@@ -4,7 +4,7 @@ import type { Notification } from "~/types";
 export const useStore = defineStore("state", () => {
   const state = reactive({
     notifications: [] as Notification[],
-    currentFile: {name:"",content:""} as { name: string; content: string }
+    currentFile: { name: "", content: "" } as { name: string; content: string },
   });
 
   const setState = (newState: any) => {

@@ -1,11 +1,11 @@
 @import "./markdown.scss";
 
-html, body {
+html,
+body {
   height: screen;
   margin: 0;
   padding: 0;
 }
-
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -28,7 +28,6 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
 
 ::-webkit-scrollbar {
   width: 8px;

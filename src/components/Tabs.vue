@@ -1,14 +1,14 @@
 <script setup lang="ts">
 interface Item {
-  text: string
-  value: string
+  text: string;
+  value: string;
 }
 
 const props = defineProps<{
-  modelValue: string
-  items: Item[]
-}>()
-const emit = defineEmits<(e: 'update:modelValue', tab: string) => void>()
+  modelValue: string;
+  items: Item[];
+}>();
+const emit = defineEmits<(e: "update:modelValue", tab: string) => void>();
 </script>
 
 <template>
