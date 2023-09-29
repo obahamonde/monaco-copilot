@@ -1,0 +1,16 @@
+{
+  "prettier.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.{css,scss}": "postcss",
+    "*.vue": "vue",
+    "*.ts": "typescript"
+  },
+  "editor.formatOnSave": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.mypyEnabled": false,
+  "python.linting.enabled": true
+}

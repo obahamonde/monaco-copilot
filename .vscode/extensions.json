@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "antfu.iconify",
+    "antfu.unocss",
+    "antfu.vite",
+    "antfu.goto-alias",
+    "csstools.postcss",
+    "vue.volar"
+  ]
+}
