@@ -16,17 +16,21 @@ const emit = defineEmits<{
   change: [typeof editorValue.value];
 }>();
 
-let worker = new Worker(
-        new URL("../composables/worker.ts", import.meta.url),
-      );
-      worker.addEventListener("message", (event) => {
-        const message = event.data;
-        console.log(message);
-      });
-  
-const sendLSPMessage = (request: any) => {
-  worker.postMessage({type: "lspRequest", payload: request});
-};
+let worker = new Worker(new URL("../composables/worker.ts", import.meta.url));
+worker.addEventListener("message", (event) => {
+  const message = event.data;
+  console.log(message);
+});
+
+let ws = ref<WebSocket | null>(null);
+
+onMounted(() => {
+  ws.value = new WebSocket("wss://app.aiofauna.com/api/lsp");
+  ws.value.addEventListener("message", (event) => {
+    worker.postMessage({ type: "wsMessage", payload: event.data });
+  });
+});
+
 self.MonacoEnvironment = {
   getWorker(_: string, label: string) {
     if (label === "json") return new JSONWorker();
@@ -40,7 +44,10 @@ self.MonacoEnvironment = {
     if (label === "typescript" || label === "javascript") return new TSWorker();
 
     if (label === "python") {
-      worker.postMessage({ type: 'init', payload: { wsUrl: 'wss://app.aiofauna.com/api/lsp' } });
+      worker.postMessage({
+        type: "init",
+        payload: { wsUrl: "wss://app.aiofauna.com/api/lsp" },
+      });
       return worker;
     }
     return new EditorWorker();
