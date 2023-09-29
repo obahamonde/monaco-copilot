@@ -11,7 +11,8 @@ const props = defineProps<{
   activeTab: string
 }>()
 
-const emit = defineEmits<{"call": [string], "change": [typeof editorValue.value]}>();
+const emit = defineEmits<{"call": [monaco.editor.IStandaloneCodeEditor], "change": [typeof editorValue.value]}>();
+
 
 self.MonacoEnvironment = {
   getWorker(_: string, label: string) {
@@ -79,7 +80,7 @@ onMounted(() => {
     contextMenuOrder: 1.5,
     run: function(ed) {
       // Emit your custom event here to call the autocompletion endpoint
-      emit('call', editor.getValue());
+      emit('call', editor)
     }
   });
 });

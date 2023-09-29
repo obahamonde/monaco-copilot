@@ -2,11 +2,13 @@
 import { onMounted, ref, watch } from 'vue'
 import { useStorage } from '@vueuse/core'
 import Split from 'split.js'
-
+import * as monaco from 'monaco-editor'
 import { generateHTML } from '~/composables/helpers'
 import { StorageName } from '~/types'
 import MonacoEditor from './MonacoEditor.vue'
 import Tabs from './Tabs.vue'
+
+
 
 const iframe = ref<HTMLIFrameElement>()
 
@@ -29,8 +31,9 @@ const onChange = (payload: Record<string, any>) => {
   iframe.value!.srcdoc = generateHTML(payload, isDark.value)
 }
 
-const onComplete = async (payload: string) => {
-const response = await fetch("/api/copilot", {
+const onComplete = async (editor: monaco.editor.IStandaloneCodeEditor) => {
+const payload = editor.getValue()
+	const response = await fetch("/api/copilot", {
 method: "POST",
 body: JSON.stringify({code: payload}),
 headers: {
@@ -39,8 +42,10 @@ headers: {
 })
 
 const data = await response.text()
-console.log(data)
+
+editor.setValue(payload + "\n" + data)
 }
+
 
 onMounted(() => {
   Split(['#split-0', 'iframe'])
