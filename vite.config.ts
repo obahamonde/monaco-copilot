@@ -39,14 +39,6 @@ export default defineConfig({
       ignored: ["**/node_modules/**", "**/dist/**", "**/.git/**", "**/api/**"],
     },
   },
-  build: {
-    rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, "src/main.ts"),
-      },
-      external: (id) => id.includes("api"),
-    },
-  },
 
   plugins: [
     VueMacros({
